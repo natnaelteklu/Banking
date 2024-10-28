@@ -1,0 +1,52 @@
+module corba {
+
+    // Define a struct for User information
+    struct User {
+        long userId;
+        string username;
+        string password;
+        string email;
+        string role;
+        string firstName;
+        string lastName;
+        string phoneNumber;
+        string address;
+        boolean isActive;
+        string createdDate;
+    };
+
+    // Define a struct for Account information
+    struct Account {
+        long accId;
+        string holderName;
+        string accType;
+        string accountNumber;
+        double balance;
+        string createdDate;
+    };
+
+    // Define sequence types for lists of Users and Accounts
+    typedef sequence<User> UserList;
+    typedef sequence<Account> AccountList;
+
+    // Interface for managing users in the banking system
+    interface UserManagement {
+        void createUser(in User user);            // Create a new user
+        User getUser(in long userId);             // Retrieve a user by their ID
+        UserList getAllUsers();                   // Get a list of all users
+        UserList searchUsers(in string query);    // Search users based on a query
+        void updateUser(in User user);            // Update an existing user's information
+        void deleteUser(in long userId);          // Delete a user by their ID
+        void deactivateUser(in long userId);      // Deactivate a user by their ID
+    };
+
+    // Interface for managing accounts in the banking system
+    interface AccountManagement {
+        void createAccount(in Account account);       // Create a new account
+        Account getAccount(in long accId);            // Retrieve an account by its ID
+        AccountList getAllAccounts();                 // Get a list of all accounts
+        AccountList searchAccounts(in string query);  // Search accounts based on a query
+        void updateAccount(in Account account);       // Update an existing account's information
+        void deleteAccount(in long accId);            // Delete an account by its ID
+    };
+};

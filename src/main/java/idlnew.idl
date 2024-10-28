@@ -1,0 +1,76 @@
+module corban {
+    // Struct to define a User
+    struct User {
+        long userId;
+        string username;
+        string password;
+        string email;
+        string role;
+        string firstName;
+        string lastName;
+        string phoneNumber;
+        string address;
+        boolean isActive;
+        string createdDate;
+    };
+
+    // Struct to define an Account
+    struct Account {
+        long accId;
+        string holderName;
+        string accType;
+        string accountNumber;
+        double balance;
+        string createdDate;
+    };
+
+    // Struct for Transaction History
+    struct Transaction {
+        long transactionId;
+        long accId;
+        double amount;
+        string transactionType; // "deposit" or "withdrawal"
+        string date;
+    };
+
+    typedef sequence<User> UserList;
+    typedef sequence<Account> AccountList;
+    typedef sequence<Transaction> TransactionList;
+
+    // Define custom exceptions
+    exception AccountNotFound { long accId; };
+    exception UserNotFound { long userId; };
+    exception InsufficientFunds { double currentBalance; };
+    exception UnauthorizedAccess { string message; };
+
+    // Interface for User Management
+    interface UserManagement {
+        void createUser(in User user);
+        User getUser(in long userId) raises (UserNotFound);
+        UserList getAllUsers();
+        UserList searchUsers(in string query);
+        void updateUser(in User user) raises (UserNotFound);
+        void deleteUser(in long userId) raises (UserNotFound);
+        void activateUser(in long userId) raises (UserNotFound);
+        void deactivateUser(in long userId) raises (UserNotFound);
+    };
+
+    // Interface for Account Management
+    interface AccountManagement {
+        void createAccount(in Account account);
+        Account getAccount(in long accId) raises (AccountNotFound);
+        AccountList getAllAccounts();
+        AccountList searchAccounts(in string query);
+        void updateAccount(in Account account) raises (AccountNotFound);
+        void deleteAccount(in long accId) raises (AccountNotFound);
+        
+        // New functionalities for banking
+        double deposit(in long accId, in double amount) raises (AccountNotFound);
+        double withdraw(in long accId, in double amount) raises (AccountNotFound, InsufficientFunds);
+        double checkBalance(in long accId) raises (AccountNotFound);
+        TransactionList getAccountTransactions(in long accId) raises (AccountNotFound);
+        
+        // Fund transfer between accounts
+        void transferFunds(in long fromAccId, in long toAccId, in double amount) raises (AccountNotFound, InsufficientFunds);
+    };
+};
