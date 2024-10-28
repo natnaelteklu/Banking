@@ -1,0 +1,4 @@
+javac *.java PowerApp/*.java
+orbd -ORBInitialPort 5050
+java Server -ORBInitialPort 5050 -ORBInitialHost localhost
+java Client -ORBInitialPort 5050 -ORBInitialHost localhost

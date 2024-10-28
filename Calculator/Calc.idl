@@ -1,0 +1,5 @@
+module PowerApp {
+    interface PowerCalculator {
+        float power(in float base, in float exponent);
+    };
+};
